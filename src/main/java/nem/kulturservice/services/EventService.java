@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import nem.kulturservice.repositories.EventRepository;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -43,5 +44,10 @@ public class EventService implements IEventService{
     @Override
     public Optional<Event> findById(Long aLong) {
         return eventRepository.findById(aLong);
+    }
+
+    @Override
+    public List<Event> findAllByOrderByTimestampAsc() {
+        return eventRepository.findAllByOrderByTimestampAsc();
     }
 }

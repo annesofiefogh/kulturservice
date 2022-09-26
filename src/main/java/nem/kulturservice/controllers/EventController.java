@@ -8,10 +8,9 @@ import org.springframework.web.bind.annotation.*;
 import nem.kulturservice.services.IBandService;
 import nem.kulturservice.services.IEventService;
 
-import java.time.LocalDate;
-import java.util.Date;
+import java.sql.Timestamp;
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @RestController
 public class EventController {
@@ -24,21 +23,22 @@ public class EventController {
         this.bandService = bandService;
     }
 
+    @GetMapping("/getAllEvents")
+    public ResponseEntity<List<Event>> getEvents(){
+        return new ResponseEntity<>(eventService.findAllByOrderByTimestampAsc(), HttpStatus.OK);
+    }
+
     @PostMapping("/createEvent")
     public ResponseEntity<String> createEvent(@RequestBody Event event, @RequestParam Long bandID) {
         Optional<Band> band_ = bandService.findById(bandID);
         if (band_.isPresent()) {
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            event.setTimestamp(timestamp);
             event.setBand(band_.get());
-            event.setDateTime(new Date());
             eventService.save(event);
             return new ResponseEntity<>("OK, event created", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Band not found " + bandID, HttpStatus.OK);
         }
-    }
-
-    @GetMapping("getEvents")
-    public ResponseEntity<Set<Event>> getEvents(){
-        return new ResponseEntity<>(eventService.findAll(), HttpStatus.OK);
     }
 }

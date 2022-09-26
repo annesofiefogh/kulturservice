@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import nem.kulturservice.repositories.UserRepository;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -42,5 +43,10 @@ public class UserService implements IUserService {
     @Override
     public Optional<User> findById(Long aLong) {
         return userRepository.findById(aLong);
+    }
+
+    @Override
+    public List<User> findUserByName(String name) {
+        return userRepository.findUserByName(name);
     }
 }

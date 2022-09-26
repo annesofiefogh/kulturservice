@@ -6,12 +6,12 @@ import org.springframework.stereotype.Service;
 import nem.kulturservice.repositories.BandRepository;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 @Service
 public class BandService implements IBandService {
-
 
     private BandRepository bandRepository;
 
@@ -44,5 +44,10 @@ public class BandService implements IBandService {
     @Override
     public Optional<Band> findById(Long aLong) {
         return bandRepository.findById(aLong);
+    }
+
+    @Override
+    public List<Band> findBandByName(String name) {
+        return bandRepository.findBandByName(name);
     }
 }

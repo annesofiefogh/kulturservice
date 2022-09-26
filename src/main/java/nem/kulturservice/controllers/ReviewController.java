@@ -10,9 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import java.util.Optional;
 import java.util.Set;
 
@@ -29,6 +26,11 @@ public class ReviewController {
         this.userService = userService;
     }
 
+    @GetMapping("/getAllReviews")
+    public ResponseEntity<Set<Review>> getReviews(){
+        return new ResponseEntity<>(reviewService.findAll(), HttpStatus.OK);
+    }
+
     @PostMapping("/createReview")
     public ResponseEntity<String> addReview(@RequestBody Review review, @RequestParam Long eid, @RequestParam Long uid){
         Optional<Event> event_ = eventService.findById(eid);
@@ -42,7 +44,6 @@ public class ReviewController {
             return new ResponseEntity<>("Failed to create review", HttpStatus.OK);
         }
     }
-
     @GetMapping("/getReview")
     public ResponseEntity<Set<Review>> getReviewForEvent (@RequestBody Event event){
         Optional<Event> event_ = eventService.findById(event.getId());
@@ -52,4 +53,6 @@ public class ReviewController {
             return new ResponseEntity<>(null, HttpStatus.SERVICE_UNAVAILABLE);
         }
     }
+
+
 }
